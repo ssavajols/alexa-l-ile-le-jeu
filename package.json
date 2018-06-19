@@ -1,0 +1,38 @@
+{
+  "name": "alexa-poum",
+  "version": "1.0.0",
+  "description": "Poum game for alexa",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run build -- --watch",
+    "build": "tsc --project ./tsconfig.json ",
+    "lint": "tslint --project ./tsconfig.json",
+    "simulate": "cd l-ile-le-jeu && ask simulate",
+    "deploy": "cd l-ile-le-jeu && ask deploy",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ssavajols/alexa-poum.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ssavajols/alexa-poum/issues"
+  },
+  "homepage": "https://github.com/ssavajols/alexa-poum#readme",
+  "dependencies": {
+    "@types/node": "^10.3.4",
+    "ask-cli": "^1.3.1",
+    "pre-commit": "^1.2.2",
+    "typescript": "^2.9.2"
+  },
+  "devDependencies": {
+    "tslint": "^5.10.0",
+    "tslint-config-standard": "^7.0.0"
+  },
+  "pre-commit": [
+    "lint",
+    "build"
+  ]
+}

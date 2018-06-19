@@ -9,7 +9,7 @@
     "lint": "tslint --project ./tsconfig.json",
     "simulate": "cd l-ile-le-jeu && ask simulate",
     "deploy": "cd l-ile-le-jeu && ask deploy",
-    "test": "npm run simulate -- -t 'space facts' -l en-US"
+    "test": "npm run simulate -- -t \"l'ile le jeu\" -l fr-FR"
   },
   "repository": {
     "type": "git",

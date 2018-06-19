@@ -2,6 +2,18 @@
   "manifest": {
     "publishingInformation": {
       "locales": {
+        "fr-FR": {
+          "summary": "L'ile le jeu",
+          "examplePhrases": [
+            "Alexa ouvre l'ile le jeu"
+          ],
+          "keywords": [
+            "l'ile",
+            "jeu"
+          ],
+          "name": "l-ile-le-jeu",
+          "description": "Version alexa du jeu l'ile"
+        },
         "en-US": {
           "summary": "Learn fun facts about space.",
           "examplePhrases": [

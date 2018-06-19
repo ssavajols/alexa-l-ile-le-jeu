@@ -1,4 +1,4 @@
-import Alexa from 'ask-sdk-core'
+import * as Alexa from 'ask-sdk-core'
 import cookbook from './alexa-cookbook'
 
 const { log } = console

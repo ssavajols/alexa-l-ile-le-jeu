@@ -9,7 +9,7 @@
     "lint": "tslint --project ./tsconfig.json",
     "simulate": "cd l-ile-le-jeu && ask simulate",
     "deploy": "cd l-ile-le-jeu && ask deploy",
-    "test": "npm run simulate -- -t \"l'ile le jeu\" -l fr-FR"
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -28,11 +28,32 @@
     "typescript": "^2.9.2"
   },
   "devDependencies": {
+    "@types/jest": "^23.1.1",
+    "jest": "^23.1.0",
+    "ts-jest": "^22.4.6",
     "tslint": "^5.10.0",
     "tslint-config-standard": "^7.0.0"
   },
   "pre-commit": [
     "lint",
-    "build"
-  ]
+    "build",
+    "test"
+  ],
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*\\.spec\\.(jsx?|tsx?)|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "collectCoverageFrom": [
+      "l-ile-le-jeu/lambda/**/*.ts"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  }
 }

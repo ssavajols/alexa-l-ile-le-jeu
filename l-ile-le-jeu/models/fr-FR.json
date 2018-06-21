@@ -1,7 +1,7 @@
 {
   "interactionModel": {
     "languageModel": {
-      "invocationName": "l'ile le jeu",
+      "invocationName": "le jeu l'ile",
       "intents": [
         {
           "name": "AMAZON.CancelIntent",
@@ -16,24 +16,50 @@
           "samples": []
         },
         {
-          "name": "GetNewFactIntent",
+          "name": "Move",
           "samples": [
-            "a fact",
-            "a space fact",
-            "tell me a fact",
-            "tell me a space fact",
-            "give me a fact",
-            "give me a space fact",
-            "tell me trivia",
-            "tell me a space trivia",
-            "give me trivia",
-            "give me a space trivia",
-            "give me some information",
-            "give me some space information",
-            "tell me something",
-            "give me something"
+            "aller à {direction}",
+            "va à {direction}",
+            "prend à {direction}",
+            "prendre à {direction}"
           ],
-          "slots": []
+          "slots": [
+            { "name": "direction", "type": "AMAZON.SearchQuery"}
+          ]
+        },
+        {
+          "name": "TakeAction",
+          "samples": [
+            "prendre le {action}",
+            "prend le {action}",
+            "prendre la {action}",
+            "prend la {action}",
+            "prendre les {action}",
+            "prend les {action}"
+          ],
+          "slots": [
+            { "name": "action", "type": "AMAZON.SearchQuery"}
+          ]
+        },
+        {
+          "name": "ThrowAction",
+          "samples": [
+            "jetter le {action}",
+            "jette le {action}",
+            "jetter la {action}",
+            "jette la {action}",
+            "jetter les {action}",
+            "jette les {action}",
+            "balancer le {action}",
+            "balance le {action}",
+            "balancer la {action}",
+            "balance la {action}",
+            "balancer les {action}",
+            "balance les {action}"
+          ],
+          "slots": [
+            { "name": "action", "type": "AMAZON.SearchQuery"}
+          ]
         }
       ]
     }

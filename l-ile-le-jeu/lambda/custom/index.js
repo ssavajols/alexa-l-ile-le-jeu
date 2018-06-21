@@ -1,54 +1,74 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Alexa = require("ask-sdk-core");
-var alexa_cookbook_1 = require("./alexa-cookbook");
+var game_1 = require("./game");
 var log = console.log;
-// ====================================
-// TODO: The items below this comment need your attention.
-// ====================================
-var SKILL_NAME = 'Space Facts';
-var GET_FACT_MESSAGE = 'Here\'s your fact: ';
-var HELP_MESSAGE = 'You can say tell me a space fact, or, you can say exit... What can I help you with?';
-var HELP_REPROMPT = 'What can I help you with?';
-var FALLBACK_MESSAGE = "The Space Facts skill can't help you with that.\n                          It can help you discover facts about space if you\n                          say tell me a space fact. What can I help you with?";
-var FALLBACK_REPROMPT = 'What can I help you with?';
-var STOP_MESSAGE = 'Goodbye!';
-// ====================================
-// TODO: Replace this data with your own.
-// You can find translations of this data
-// at http://github.com/alexa/skill-sample-node-js-fact/lambda/data
-// ====================================
-var data = [
-    'A year on Mercury is just 88 days long.',
-    'Despite being farther from the Sun, Venus experiences higher temperatures than Mercury.',
-    'Venus rotates counter-clockwise, possibly because of a collision in the past with an asteroid.',
-    'On Mars, the Sun appears about half the size as it does on Earth.',
-    'Earth is the only planet not named after a god.',
-    'Jupiter has the shortest day of all the planets.',
-    'The Milky Way galaxy will collide with the Andromeda Galaxy in about 5 billion years.',
-    'The Sun contains 99.86% of the mass in the Solar System.',
-    'The Sun is an almost perfect sphere.',
-    'A total solar eclipse can happen once every 1 to 2 years. This makes them a rare event.',
-    'Saturn radiates two and a half times more energy into space than it receives from the sun.',
-    'The temperature inside the Sun can reach 15 million degrees Celsius.',
-    'The Moon is moving approximately 3.8 cm away from our planet every year.'
-];
-// ====================================
-// Editing anything below this line might break your skill.
-// ====================================
-var GetNewFactHandler = {
+var WelcomeHandler = {
     canHandle: function (handlerInput) {
         var request = handlerInput.requestEnvelope.request;
-        return request.type === 'LaunchRequest'
-            || (request.type === 'IntentRequest'
-                && request.intent.name === 'GetNewFactIntent');
+        return request.type === 'LaunchRequest';
     },
     handle: function (handlerInput) {
-        var randomFact = alexa_cookbook_1.default.getRandomItem(data);
-        var speechOutput = GET_FACT_MESSAGE + randomFact;
+        var GAME = new game_1.Game(handlerInput);
+        var int = GAME.session.getNewInt();
+        var speak = 'welcome ' + int;
         return handlerInput.responseBuilder
-            .speak(speechOutput)
-            .withSimpleCard(SKILL_NAME, randomFact)
+            .speak(speak)
+            .withSimpleCard(GAME.skillName(), speak)
+            .withShouldEndSession(false)
+            .reprompt('Qué ?')
+            .getResponse();
+    }
+};
+var MoveHandler = {
+    canHandle: function (handlerInput) {
+        var request = handlerInput.requestEnvelope.request;
+        return request.type === 'IntentRequest' && request.intent.name === 'Move';
+    },
+    handle: function (handlerInput) {
+        var GAME = new game_1.Game(handlerInput);
+        var int = GAME.session.getNewInt();
+        var action = GAME.controls.getDirection() || 'no direction';
+        var speak = 'direction ' + int + ' ' + action;
+        return handlerInput.responseBuilder
+            .speak(speak)
+            .withSimpleCard(GAME.skillName(), speak)
+            .withShouldEndSession(false)
+            .reprompt('Qué ?')
+            .getResponse();
+    }
+};
+var ActionHandler = function (actionName) { return ({
+    canHandle: function (handlerInput) {
+        var request = handlerInput.requestEnvelope.request;
+        return request.type === 'IntentRequest' && request.intent.name === actionName + "Action";
+    },
+    handle: function (handlerInput) {
+        var GAME = new game_1.Game(handlerInput);
+        var int = GAME.session.getNewInt();
+        var action = GAME.controls.getAction() || 'no action';
+        var speak = 'action ' + actionName + ' ' + int + ' ' + action;
+        return handlerInput.responseBuilder
+            .speak(speak)
+            .withSimpleCard(GAME.skillName(), speak)
+            .withShouldEndSession(false)
+            .reprompt('Qué ?')
+            .getResponse();
+    }
+}); };
+var TakeActionHandler = ActionHandler('Take');
+var ThrowActionHandler = ActionHandler('Throw');
+var UnhandleHandler = {
+    canHandle: function () {
+        return true;
+    },
+    handle: function (handlerInput) {
+        var GAME = new game_1.Game(handlerInput);
+        return handlerInput.responseBuilder
+            .speak(GAME.fallback())
+            .withSimpleCard(GAME.skillName(), GAME.fallback())
+            .reprompt(GAME.fallback())
+            .withShouldEndSession(false)
             .getResponse();
     }
 };
@@ -59,25 +79,11 @@ var HelpHandler = {
             && request.intent.name === 'AMAZON.HelpIntent';
     },
     handle: function (handlerInput) {
+        var GAME = new game_1.Game(handlerInput);
         return handlerInput.responseBuilder
-            .speak(HELP_MESSAGE)
-            .reprompt(HELP_REPROMPT)
-            .getResponse();
-    }
-};
-var FallbackHandler = {
-    // 2018-May-01: AMAZON.FallackIntent is only currently available in en-US locale.
-    //              This handler will not be triggered except in that locale, so it can be
-    //              safely deployed for any locale.
-    canHandle: function (handlerInput) {
-        var request = handlerInput.requestEnvelope.request;
-        return request.type === 'IntentRequest'
-            && request.intent.name === 'AMAZON.FallbackIntent';
-    },
-    handle: function (handlerInput) {
-        return handlerInput.responseBuilder
-            .speak(FALLBACK_MESSAGE)
-            .reprompt(FALLBACK_REPROMPT)
+            .speak(GAME.help())
+            .reprompt(GAME.help())
+            .withShouldEndSession(false)
             .getResponse();
     }
 };
@@ -89,8 +95,9 @@ var ExitHandler = {
                 || request.intent.name === 'AMAZON.StopIntent');
     },
     handle: function (handlerInput) {
+        var GAME = new game_1.Game(handlerInput);
         return handlerInput.responseBuilder
-            .speak(STOP_MESSAGE)
+            .speak(GAME.stop())
             .getResponse();
     }
 };
@@ -113,12 +120,13 @@ var ErrorHandler = {
         return handlerInput.responseBuilder
             .speak('Sorry, an error occurred.')
             .reprompt('Sorry, an error occurred.')
+            .withShouldEndSession(false)
             .getResponse();
     }
 };
 var skillBuilder = Alexa.SkillBuilders.custom();
 exports.handler = skillBuilder
-    .addRequestHandlers(GetNewFactHandler, HelpHandler, ExitHandler, FallbackHandler, SessionEndedRequestHandler)
+    .addRequestHandlers(WelcomeHandler, MoveHandler, TakeActionHandler, ThrowActionHandler, HelpHandler, ExitHandler, SessionEndedRequestHandler, UnhandleHandler)
     .addErrorHandlers(ErrorHandler)
     .lambda();
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJpbmRleC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLG9DQUFxQztBQUNyQyxtREFBdUM7QUFFL0IsSUFBQSxpQkFBRyxDQUFZO0FBRXZCLHVDQUF1QztBQUN2QywwREFBMEQ7QUFDMUQsdUNBQXVDO0FBRXZDLElBQU0sVUFBVSxHQUFHLGFBQWEsQ0FBQTtBQUNoQyxJQUFNLGdCQUFnQixHQUFHLHFCQUFxQixDQUFBO0FBQzlDLElBQU0sWUFBWSxHQUFHLHFGQUFxRixDQUFBO0FBQzFHLElBQU0sYUFBYSxHQUFHLDJCQUEyQixDQUFBO0FBQ2pELElBQU0sZ0JBQWdCLEdBQUcsNk1BRXFELENBQUE7QUFDOUUsSUFBTSxpQkFBaUIsR0FBRywyQkFBMkIsQ0FBQTtBQUNyRCxJQUFNLFlBQVksR0FBRyxVQUFVLENBQUE7QUFFL0IsdUNBQXVDO0FBQ3ZDLHlDQUF5QztBQUN6Qyx5Q0FBeUM7QUFDekMsbUVBQW1FO0FBQ25FLHVDQUF1QztBQUV2QyxJQUFNLElBQUksR0FBRztJQUNYLHlDQUF5QztJQUN6Qyx5RkFBeUY7SUFDekYsZ0dBQWdHO0lBQ2hHLG1FQUFtRTtJQUNuRSxpREFBaUQ7SUFDakQsa0RBQWtEO0lBQ2xELHVGQUF1RjtJQUN2RiwwREFBMEQ7SUFDMUQsc0NBQXNDO0lBQ3RDLHlGQUF5RjtJQUN6Riw0RkFBNEY7SUFDNUYsc0VBQXNFO0lBQ3RFLDBFQUEwRTtDQUMzRSxDQUFBO0FBRUQsdUNBQXVDO0FBQ3ZDLDJEQUEyRDtBQUMzRCx1Q0FBdUM7QUFFdkMsSUFBTSxpQkFBaUIsR0FBRztJQUN4QixTQUFTLFlBQUUsWUFBWTtRQUNyQixJQUFNLE9BQU8sR0FBRyxZQUFZLENBQUMsZUFBZSxDQUFDLE9BQU8sQ0FBQTtRQUNwRCxPQUFPLE9BQU8sQ0FBQyxJQUFJLEtBQUssZUFBZTtlQUNsQyxDQUFDLE9BQU8sQ0FBQyxJQUFJLEtBQUssZUFBZTttQkFDL0IsT0FBTyxDQUFD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
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJpbmRleC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLG9DQUFxQztBQUVyQywrQkFBNkI7QUFFckIsSUFBQSxpQkFBRyxDQUFZO0FBRXZCLElBQU0sY0FBYyxHQUFHO0lBQ3JCLFNBQVMsRUFBVCxVQUFXLFlBQWdDO1FBQ3pDLElBQU0sT0FBTyxHQUFHLFlBQVksQ0FBQyxlQUFlLENBQUMsT0FBTyxDQUFBO1FBQ3BELE9BQU8sT0FBTyxDQUFDLElBQUksS0FBSyxlQUFlLENBQUE7SUFDekMsQ0FBQztJQUNELE1BQU0sRUFBTixVQUFRLFlBQWdDO1FBQ3RDLElBQU0sSUFBSSxHQUFHLElBQUksV0FBSSxDQUFDLFlBQVksQ0FBQyxDQUFBO1FBQ25DLElBQU0sR0FBRyxHQUFHLElBQUksQ0FBQyxPQUFPLENBQUMsU0FBUyxFQUFFLENBQUE7UUFFcEMsSUFBTSxLQUFLLEdBQUcsVUFBVSxHQUFHLEdBQUcsQ0FBQTtRQUU5QixPQUFPLFlBQVksQ0FBQyxlQUFlO2FBQ2hDLEtBQUssQ0FBQyxLQUFLLENBQUM7YUFDWixjQUFjLENBQUMsSUFBSSxDQUFDLFNBQVMsRUFBRSxFQUFFLEtBQUssQ0FBQzthQUN2QyxvQkFBb0IsQ0FBQyxLQUFLLENBQUM7YUFDM0IsUUFBUSxDQUFDLE9BQU8sQ0FBQzthQUNqQixXQUFXLEVBQUUsQ0FBQTtJQUNsQixDQUFDO0NBQ0YsQ0FBQTtBQUVELElBQU0sV0FBVyxHQUFHO0lBQ2xCLFNBQVMsRUFBVCxVQUFXLFlBQWdDO1FBQ3pDLElBQU0sT0FBTyxHQUFHLFlBQVksQ0FBQyxlQUFlLENBQUMsT0FBTyxDQUFBO1FBQ3BELE9BQU8sT0FBTyxDQUFDLElBQUksS0FBSyxlQUFlLElBQUksT0FBTyxDQUFDLE1BQU0sQ0FBQyxJQUFJLEtBQUssTUFBTSxDQUFBO0lBQzNFLENBQUM7SUFDRCxNQUFNLEVBQU4sVUFBUSxZQUFnQztRQUN0QyxJQUFNLElBQUksR0FB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

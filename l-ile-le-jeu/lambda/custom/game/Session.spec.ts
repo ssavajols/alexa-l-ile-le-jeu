@@ -1,5 +1,5 @@
-import { Session } from '../../l-ile-le-jeu/lambda/custom/game/Session'
-import { handlerInputFactory } from '../handlerInput'
+import { handlerInputFactory } from '../../../../__tests__/handlerInput'
+import { Session } from './Session'
 
 describe('session', () => {
 

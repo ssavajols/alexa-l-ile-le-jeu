@@ -1,5 +1,5 @@
-import { Controls } from '../../l-ile-le-jeu/lambda/custom/game/Controls'
-import { handlerInputFactory } from '../handlerInput'
+import { handlerInputFactory } from '../../../../__tests__/handlerInput'
+import { Controls } from './Controls'
 
 describe('controls', () => {
 

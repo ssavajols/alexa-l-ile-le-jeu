@@ -1,4 +1,4 @@
-import '../l-ile-le-jeu/lambda/custom/index'
+import './index'
 
 describe('skill', () => {
   it('should not crash', () => {

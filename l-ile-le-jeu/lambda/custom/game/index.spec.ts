@@ -1,7 +1,7 @@
-import { Game } from '../../l-ile-le-jeu/lambda/custom/game'
-import { Controls } from '../../l-ile-le-jeu/lambda/custom/game/Controls'
-import { Session } from '../../l-ile-le-jeu/lambda/custom/game/Session'
-import { handlerInputFactory } from '../handlerInput'
+import { Game } from '.'
+import { handlerInputFactory } from '../../../../__tests__/handlerInput'
+import { Controls } from './Controls'
+import { Session } from './Session'
 
 describe('GAME', () => {
 

@@ -9,6 +9,7 @@
     "lint": "tslint --project ./tsconfig.json",
     "simulate": "cd l-ile-le-jeu && ask simulate",
     "deploy": "cd l-ile-le-jeu && ask deploy",
+    "deploy-test": "npm run deploy &&  ask simulate -t \"ouvre le jeu l'ile\" -l fr-FR",
     "test": "jest --coverage"
   },
   "repository": {

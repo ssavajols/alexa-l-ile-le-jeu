@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Game_1 = require("../Game");
+var game_1 = require("../game");
 exports.ActionHandler = function (actionName) { return ({
     canHandle: function (handlerInput) {
         var request = handlerInput.requestEnvelope.request;
         return request.type === 'IntentRequest' && request.intent.name === actionName + "Action";
     },
     handle: function (handlerInput) {
-        var GAME = new Game_1.Game(handlerInput);
+        var GAME = new game_1.Game(handlerInput);
         var int = GAME.session.getNewInt();
         var action = GAME.controls.getAction() || 'no action';
         var speak = 'action ' + actionName + ' ' + int + ' ' + action;

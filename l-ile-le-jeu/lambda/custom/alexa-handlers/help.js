@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Game_1 = require("../Game");
+var game_1 = require("../game");
 exports.HelpHandler = {
     canHandle: function (handlerInput) {
         var request = handlerInput.requestEnvelope.request;
@@ -8,7 +8,7 @@ exports.HelpHandler = {
             && request.intent.name === 'AMAZON.HelpIntent';
     },
     handle: function (handlerInput) {
-        var GAME = new Game_1.Game(handlerInput);
+        var GAME = new game_1.Game(handlerInput);
         return handlerInput.responseBuilder
             .speak(GAME.help())
             .reprompt(GAME.help())

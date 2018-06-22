@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Game_1 = require("../Game");
+var game_1 = require("../game");
 exports.ExitHandler = {
     canHandle: function (handlerInput) {
         var request = handlerInput.requestEnvelope.request;
@@ -9,7 +9,7 @@ exports.ExitHandler = {
                 || request.intent.name === 'AMAZON.StopIntent');
     },
     handle: function (handlerInput) {
-        var GAME = new Game_1.Game(handlerInput);
+        var GAME = new game_1.Game(handlerInput);
         return handlerInput.responseBuilder
             .speak(GAME.stop())
             .getResponse();

@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Game_1 = require("../Game");
+var game_1 = require("../game");
 exports.UnhandleHandler = {
     canHandle: function () {
         return true;
     },
     handle: function (handlerInput) {
-        var GAME = new Game_1.Game(handlerInput);
+        var GAME = new game_1.Game(handlerInput);
         return handlerInput.responseBuilder
             .speak(GAME.fallback())
             .withSimpleCard(GAME.skillName(), GAME.fallback())

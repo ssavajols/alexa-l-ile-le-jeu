@@ -18,13 +18,15 @@
         {
           "name": "Move",
           "samples": [
-            "aller à {direction}",
-            "va à {direction}",
-            "prend à {direction}",
-            "prendre à {direction}"
+            "aller à {action}",
+            "aller en {action}",
+            "va à {action}",
+            "va en {action}",
+            "prend à {action}",
+            "prendre à {action}"
           ],
           "slots": [
-            { "name": "direction", "type": "AMAZON.SearchQuery"}
+            { "name": "action", "type": "AMAZON.SearchQuery"}
           ]
         },
         {

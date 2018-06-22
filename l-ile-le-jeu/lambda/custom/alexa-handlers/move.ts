@@ -10,7 +10,7 @@ export const MoveHandler = {
   handle (handlerInput: Alexa.HandlerInput): Promise<Response> | Response {
     const GAME = new Game(handlerInput, 'Move')
 
-    const speak = GAME.getSpeech()
+    const speak = GAME.getSpeech() + ' --- ' + GAME.controls.getAction()
 
     return handlerInput.responseBuilder
       .speak(speak)

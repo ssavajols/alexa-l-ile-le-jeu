@@ -15,7 +15,7 @@ describe('GAME', () => {
     handlerInput = HandlerInputFactory.create({
       action: { value: 'Droite' }
     }, {
-      progress: 'A.B.A'
+      progress: 'Q1.Q12.Q121'
     })
     GAME = new Game(handlerInput, 'Take')
   })
@@ -53,13 +53,13 @@ describe('GAME', () => {
   })
 
   it('should set state with progress from session', () => {
-    expect(GAME.state.setProgress).toHaveBeenCalledWith('A.B.A')
+    expect(GAME.state.setProgress).toHaveBeenCalledWith('Q1.Q12.Q121')
   })
 
-  it('should call getMessage from state', () => {
-    expect(GAME.state.getMessage).not.toBeCalled()
+  it('should call next from state', () => {
+    expect(GAME.state.next).not.toBeCalled()
     GAME.getSpeech()
-    expect(GAME.state.getMessage).toBeCalledWith('TAKE_DROITE')
+    expect(GAME.state.next).toBeCalledWith('TAKE_DROITE')
   })
 
 })

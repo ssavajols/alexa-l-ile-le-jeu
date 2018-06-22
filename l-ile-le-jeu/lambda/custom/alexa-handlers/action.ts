@@ -11,7 +11,7 @@ export const ActionHandler = (actionType: string) => ({
 
     const GAME = new Game(handlerInput, actionType)
 
-    const speak = GAME.getSpeech()
+    const speak = GAME.getSpeech() + ' --- ' + GAME.controls.getAction()
 
     return handlerInput.responseBuilder
       .speak(speak)

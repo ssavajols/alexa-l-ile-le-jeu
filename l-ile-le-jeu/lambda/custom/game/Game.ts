@@ -10,6 +10,8 @@ export class Game {
   public controls: Controls
   public state: State
 
+  private _speech: string = ''
+
   constructor (handler: Alexa.HandlerInput, actionType?: string, language: string = 'fr-FR') {
     this.session = new Session(handler)
     this.controls = new Controls(handler, actionType)
@@ -19,7 +21,9 @@ export class Game {
   }
 
   public getSpeech (): string {
-    return this.state.getMessage(this.controls.getAction() || '')
+    this._speech = this._speech ? this._speech : this.state.next(this.controls.getAction() || '')
+    this.session.setAttribute('progress', this.state.getProgress())
+    return this._speech
   }
 
   public help (): string {

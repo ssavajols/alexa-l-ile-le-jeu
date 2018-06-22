@@ -6,15 +6,13 @@ export class State {
 
   private _progress: string = ''
 
-  private _index: string[] = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
-
   constructor (data) {
     this._data = data
   }
 
-  public getMessage (actionName?: string) {
+  public next (actionName?: string) {
     if (!this.getProgress()) {
-      this.setProgress('A')
+      this.setProgress('Q1')
       return this.getIntroductionSpeech()
     } else if (actionName) {
       return this.getQuestionSpeech(this.doAction(actionName))
@@ -44,14 +42,17 @@ export class State {
   }
 
   public doAction (actionName) {
-    const progress = `${this.getProgress()}${this.getActionIndex(actionName)}`
-    return this.getQuestion(progress)
+    this.setProgress(`${this.getProgress()}${this.getActionIndex(actionName)}`)
+    return this.getQuestion(this.getProgress())
   }
 
   private getActionIndex (actionName) {
     const question = this.getQuestion()
-    const index = this._index[question.answers.indexOf(actionName)]
-    return index ? `.${index}` : ''
+    const progress = this.getProgress()
+    const aProgress = progress.split('.')
+    const answerIndex = question.answers.indexOf(actionName) + 1
+    const currentQuestion = aProgress[aProgress.length - 1]
+    return answerIndex > 0 ? `.${currentQuestion + answerIndex.toString()}` : ''
   }
 
   private getIntroductionSpeech () {

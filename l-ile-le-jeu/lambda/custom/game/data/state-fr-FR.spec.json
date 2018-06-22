@@ -1,19 +1,33 @@
 {
   "introduction": "Welcome",
-  "A": {
+  "Q1": {
     "question": "toto ?",
     "answers": [
       "TAKE_MARTEAU",
       "MOVE_HAUT"
     ],
-    "A": {
-      "question": "titi ?",
-      "answers": [
-        "THROW_COUTEAU",
-        "MOVE_DROIT"
-      ]
+    "Q11": {
+        "question": "titi ?",
+        "answers": [
+          "THROW_COUTEAU",
+          "MOVE_DROIT"
+        ],
+        "Q111": {
+          "question": "titi ?",
+          "answers": [
+            "THROW_COUTEAU",
+            "MOVE_DROIT"
+          ]
+        },
+        "Q112": {
+          "question": "tata ?",
+          "answers": [
+            "TAKE_CHAISE",
+            "MOVE_BAS"
+          ]
+      }
     },
-    "B": {
+    "Q12": {
       "question": "tata ?",
       "answers": [
         "TAKE_CHAISE",

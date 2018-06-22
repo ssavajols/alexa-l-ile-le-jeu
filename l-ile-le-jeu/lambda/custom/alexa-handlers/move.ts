@@ -8,11 +8,9 @@ export const MoveHandler = {
     return request.type === 'IntentRequest' && request.intent.name === 'Move'
   },
   handle (handlerInput: Alexa.HandlerInput): Promise<Response> | Response {
-    const GAME = new Game(handlerInput)
-    const int = GAME.session.getNewInt()
-    const action = GAME.controls.getDirection() || 'no direction'
+    const GAME = new Game(handlerInput, 'Move')
 
-    const speak = 'direction ' + int + ' ' + action
+    const speak = GAME.getSpeech()
 
     return handlerInput.responseBuilder
       .speak(speak)

@@ -31,10 +31,4 @@ describe('session', () => {
     expect(SESSION.getAttribute('set')).toBe('value')
   })
 
-  it('should return new int value', () => {
-    expect(SESSION.getNewInt()).toBe(1)
-    expect(SESSION.getNewInt()).toBe(2)
-    expect(SESSION.getNewInt()).toBe(3)
-    expect(SESSION.getNewInt()).toBe(4)
-  })
 })

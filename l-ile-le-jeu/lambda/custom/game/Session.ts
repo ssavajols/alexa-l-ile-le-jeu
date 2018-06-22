@@ -19,10 +19,4 @@ export class Session {
 
     this._session.setSessionAttributes(attr)
   }
-
-  public getNewInt (): number {
-    const int = typeof this.getAttribute('int') === 'number' ? this.getAttribute('int') + 1 : 1
-    this.setAttribute('int', int)
-    return int
-  }
 }

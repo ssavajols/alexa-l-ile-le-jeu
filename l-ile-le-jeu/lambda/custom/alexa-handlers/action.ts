@@ -2,18 +2,16 @@ import * as Alexa from 'ask-sdk-core'
 import { Response } from 'ask-sdk-model'
 import { Game } from '../game'
 
-export const ActionHandler = (actionName: string) => ({
+export const ActionHandler = (actionType: string) => ({
   canHandle (handlerInput: Alexa.HandlerInput): Promise<boolean> | boolean {
     const request = handlerInput.requestEnvelope.request
-    return request.type === 'IntentRequest' && request.intent.name === `${actionName}Action`
+    return request.type === 'IntentRequest' && request.intent.name === `${actionType}Action`
   },
   handle (handlerInput: Alexa.HandlerInput): Promise<Response> | Response {
 
-    const GAME = new Game(handlerInput)
-    const int = GAME.session.getNewInt()
-    const action = GAME.controls.getAction() || 'no action'
+    const GAME = new Game(handlerInput, actionType)
 
-    const speak = 'action ' + actionName + ' ' + int + ' ' + action
+    const speak = GAME.getSpeech()
 
     return handlerInput.responseBuilder
       .speak(speak)

@@ -3,9 +3,11 @@ export class HandlerInputFactory {
 
   private static _sessionObject = {}
 
-  public static create (slots): any {
+  public static create (slots, session = {}): any {
     const getSessionAttributesSpy = jest.fn()
     const setSessionAttributesSpy = jest.fn()
+
+    this._sessionObject = { ...session }
 
     const handlerInput = {
       attributesManager: {

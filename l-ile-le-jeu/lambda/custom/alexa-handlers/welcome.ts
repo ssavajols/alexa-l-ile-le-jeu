@@ -9,9 +9,8 @@ export const WelcomeHandler = {
   },
   handle (handlerInput: Alexa.HandlerInput): Promise<Response> | Response {
     const GAME = new Game(handlerInput)
-    const int = GAME.session.getNewInt()
 
-    const speak = 'welcome ' + int
+    const speak = GAME.getSpeech()
 
     return handlerInput.responseBuilder
       .speak(speak)

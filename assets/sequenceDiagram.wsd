@@ -1,0 +1,51 @@
+title: Alexa le jeu l'ile - Bienvenue
+
+User->+Alexa: Ouvre le jeu l'ile
+
+Alexa->+Game: Créer instance Game
+
+Game->+Session: Créer instance
+Session->-Game:
+
+Game->+Controls: Créer instance
+Controls->-Game:
+
+Game->-Alexa:
+
+Alexa->+Game: GetSpeech()
+
+Game->+State: Récupère le texte d'introduction et  le texte de la  première question
+note right of State
+Défini "A" si pas de question précédente
+end note
+State->Session: Met à jour l'état en session
+State->-Game: Retourne le texte et les réponses
+
+Game->-Alexa: Retourne le texte d'introduction et la première question
+
+Alexa->-User: Question 1
+
+
+
+
+User->+Alexa: Réponse B
+
+Alexa->+Game: Créer instance Game
+
+Game->+Session: Créer instance
+Session->-Game:
+
+Game->+Controls: Créer instance
+Controls->-Game:
+
+Game->-Alexa:
+
+Alexa->+Game: GetSpeech()
+
+Game->+State: Récupère la question suivate
+State->Session: Met à jour l'état en session
+State->-Game:
+
+Game->-Alexa: Retourne le texte de la question 2
+
+Alexa->-User: Question 2

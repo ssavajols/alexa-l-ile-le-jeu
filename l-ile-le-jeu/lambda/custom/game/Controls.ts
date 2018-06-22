@@ -4,7 +4,12 @@ export class Controls {
 
   private _slots: any
 
-  constructor (handlerInput: Alexa.HandlerInput) {
+  private _actionType: string
+
+  constructor (handlerInput: Alexa.HandlerInput, _actionType?: string) {
+
+    this._actionType = _actionType || ''
+
     try {
       this._slots = (handlerInput.requestEnvelope.request as any).intent.slots
     } catch (err) {
@@ -12,12 +17,17 @@ export class Controls {
     }
   }
 
-  public getAction (): string {
-    return this._slotValue('action')
-  }
+  public getAction (): string | null {
+    const actionType = this._actionType
+    const actionName = this._slotValue('action')
 
-  public getDirection (): string {
-    return this._slotValue('direction')
+    if (actionName && actionType) {
+      return `${actionType.toUpperCase()}_${actionName.toUpperCase()}`
+    } else if (actionName) {
+      return `${actionName.toUpperCase()}`
+    }
+
+    return null
   }
 
   private _slotValue (slotName: string): any {

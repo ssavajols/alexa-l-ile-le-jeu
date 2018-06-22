@@ -8,33 +8,20 @@ describe('controls', () => {
   beforeEach(() => {
     const handlerInput = HandlerInputFactory.create({
       action: {
-        value: 'take'
-      },
-      direction: {
-        value: 'right'
+        value: 'marteau'
       }
     })
 
-    CONTROLS = new Controls(handlerInput)
+    CONTROLS = new Controls(handlerInput, 'TAKE')
   })
 
   it('should get action from slot', () => {
-    expect(CONTROLS.getAction()).toBe('take')
-  })
-
-  it('should get direction from slot', () => {
-    expect(CONTROLS.getDirection()).toBe('right')
+    expect(CONTROLS.getAction()).toBe('TAKE_MARTEAU')
   })
 
   it('should return null if no action', () => {
     const handlerInput = HandlerInputFactory.create({})
     const controls = new Controls(handlerInput)
     expect(controls.getAction()).toBe(null)
-  })
-
-  it('should return null if no direction', () => {
-    const handlerInput = HandlerInputFactory.create({})
-    const controls = new Controls(handlerInput)
-    expect(controls.getDirection()).toBe(null)
   })
 })

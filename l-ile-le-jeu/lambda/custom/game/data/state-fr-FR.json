@@ -1,0 +1,25 @@
+{
+  "introduction": "Welcome",
+  "end": "Goodbye !",
+  "A": {
+    "question": "toto ?",
+    "answers": [
+      "TAKE_MARTEAU",
+      "MOVE_HAUT"
+    ],
+    "A": {
+      "question": "titi ?",
+      "answers": [
+        "THROW_COUTEAU",
+        "MOVE_DROIT"
+      ]
+    },
+    "B": {
+      "question": "tata ?",
+      "answers": [
+        "TAKE_CHAISE",
+        "MOVE_BAS"
+      ]
+    }
+  }
+}

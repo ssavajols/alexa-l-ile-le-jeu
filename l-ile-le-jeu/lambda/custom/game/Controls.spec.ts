@@ -1,4 +1,4 @@
-import { handlerInputFactory } from '../../../../__tests__/handlerInput'
+import { HandlerInputFactory } from '../../../../__tests__/HandlerInputFactory'
 import { Controls } from './Controls'
 
 describe('controls', () => {
@@ -6,7 +6,7 @@ describe('controls', () => {
   let CONTROLS
 
   beforeEach(() => {
-    const handlerInput = handlerInputFactory({
+    const handlerInput = HandlerInputFactory.create({
       action: {
         value: 'take'
       },
@@ -27,13 +27,13 @@ describe('controls', () => {
   })
 
   it('should return null if no action', () => {
-    const handlerInput = handlerInputFactory({})
+    const handlerInput = HandlerInputFactory.create({})
     const controls = new Controls(handlerInput)
     expect(controls.getAction()).toBe(null)
   })
 
   it('should return null if no direction', () => {
-    const handlerInput = handlerInputFactory({})
+    const handlerInput = HandlerInputFactory.create({})
     const controls = new Controls(handlerInput)
     expect(controls.getDirection()).toBe(null)
   })

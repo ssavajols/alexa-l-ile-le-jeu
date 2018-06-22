@@ -1,5 +1,5 @@
 import { Game } from '.'
-import { handlerInputFactory } from '../../../../__tests__/handlerInput'
+import { HandlerInputFactory } from '../../../../__tests__/HandlerInputFactory'
 import { Controls } from './Controls'
 import { Session } from './Session'
 
@@ -8,7 +8,7 @@ describe('GAME', () => {
   let GAME
 
   beforeEach(() => {
-    const handlerInput = handlerInputFactory({})
+    const handlerInput = HandlerInputFactory.create({})
     GAME = new Game(handlerInput)
   })
 

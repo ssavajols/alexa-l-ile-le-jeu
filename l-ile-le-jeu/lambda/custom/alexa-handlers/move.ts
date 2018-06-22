@@ -1,6 +1,6 @@
 import * as Alexa from 'ask-sdk-core'
 import { Response } from 'ask-sdk-model'
-import { Game } from '../game'
+import { Game } from '../Game'
 
 export const MoveHandler = {
   canHandle (handlerInput: Alexa.HandlerInput): Promise<boolean> | boolean {

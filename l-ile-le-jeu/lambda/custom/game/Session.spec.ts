@@ -1,4 +1,4 @@
-import { handlerInputFactory } from '../../../../__tests__/handlerInput'
+import { HandlerInputFactory } from '../../../../__tests__/HandlerInputFactory'
 import { Session } from './Session'
 
 describe('session', () => {
@@ -7,7 +7,7 @@ describe('session', () => {
   let handlerInput: any
 
   beforeEach(() => {
-    handlerInput = handlerInputFactory({})
+    handlerInput = HandlerInputFactory.create({})
     SESSION = new Session(handlerInput)
   })
 

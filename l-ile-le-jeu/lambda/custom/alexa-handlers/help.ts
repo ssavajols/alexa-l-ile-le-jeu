@@ -1,5 +1,5 @@
 import * as Alexa from 'ask-sdk-core'
-import { Game } from '../game'
+import { Game } from '../Game'
 
 export const HelpHandler = {
   canHandle (handlerInput: Alexa.HandlerInput) {

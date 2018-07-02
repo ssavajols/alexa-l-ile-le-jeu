@@ -14,7 +14,7 @@ export const HelpHandler = {
     return handlerInput.responseBuilder
       .speak(GAME.help())
       .reprompt(GAME.help())
-      .withShouldEndSession(false)
+      .withShouldEndSession(GAME.isEnd)
       .getResponse()
   }
 }

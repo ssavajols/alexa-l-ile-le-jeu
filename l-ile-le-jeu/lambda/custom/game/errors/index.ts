@@ -1,4 +1,5 @@
 export * from './QuestionNotFoundError'
 export * from './QuestionMissingIdError'
+export * from './QuestionNotDefined'
 export * from './DataNotLoadedError'
 export * from './NoLocaleError'

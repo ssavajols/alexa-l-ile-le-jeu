@@ -15,7 +15,7 @@ export const MoveHandler = {
     return handlerInput.responseBuilder
       .speak(speak)
       .withSimpleCard(GAME.skillName(), speak)
-      .withShouldEndSession(false)
+      .withShouldEndSession(GAME.isEnd)
       .reprompt('Qué ?')
       .getResponse()
   }

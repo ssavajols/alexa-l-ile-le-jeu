@@ -34,5 +34,10 @@
         "MOVE_BAS"
       ]
     }
+  },
+  "Q2": {
+    "question": "No way out ?",
+    "answers": [],
+    "isEnd": true
   }
 }

@@ -14,7 +14,7 @@ export const UnhandleHandler = {
       .speak(GAME.fallback())
       .withSimpleCard(GAME.skillName(), GAME.fallback())
       .reprompt(GAME.fallback())
-      .withShouldEndSession(false)
+      .withShouldEndSession(GAME.isEnd)
       .getResponse()
   }
 }

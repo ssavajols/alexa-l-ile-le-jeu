@@ -15,9 +15,7 @@ export class Game {
   constructor (handler: Alexa.HandlerInput, actionType?: string, language: string = 'fr-FR') {
     this.session = new Session(handler)
     this.controls = new Controls(handler, actionType)
-    this.state = new State(data)
-
-    this.state.setProgress(this.session.getAttribute('progress'))
+    this.state = new State(data, this.session.getAttribute('progress'))
   }
 
   public getSpeech (): string {
@@ -40,6 +38,11 @@ export class Game {
 
   public fallback (): string {
     return 'Commande non reconnu'
+  }
+
+  public get isEnd () {
+    const question = this.state.getQuestion()
+    return question ? question.isEnd : false
   }
 
 }

@@ -16,7 +16,7 @@ export const ActionHandler = (actionType: string) => ({
     return handlerInput.responseBuilder
       .speak(speak)
       .withSimpleCard(GAME.skillName(), speak)
-      .withShouldEndSession(false)
+      .withShouldEndSession(GAME.isEnd)
       .reprompt('Qué ?')
       .getResponse()
   }

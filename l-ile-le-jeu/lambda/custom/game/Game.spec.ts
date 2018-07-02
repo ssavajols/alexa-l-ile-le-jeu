@@ -1,10 +1,9 @@
 import { Game } from '.'
 import { HandlerInputFactory } from '../../../../__tests__/HandlerInputFactory'
 import { Controls } from './Controls'
+import * as data from './data/state-fr-FR.spec.json'
 import { Session } from './Session'
 import { State } from './State'
-
-jest.mock('./State')
 
 describe('GAME', () => {
 
@@ -12,10 +11,11 @@ describe('GAME', () => {
   let handlerInput
 
   beforeEach(() => {
+
     handlerInput = HandlerInputFactory.create({
       action: { value: 'Droite' }
     }, {
-      progress: 'Q1.Q12.Q121'
+      progress: 'Q1.Q12'
     })
     GAME = new Game(handlerInput, 'Take')
   })
@@ -52,14 +52,21 @@ describe('GAME', () => {
     expect(GAME.fallback()).toBe('Commande non reconnu')
   })
 
-  it('should set state with progress from session', () => {
-    expect(GAME.state.setProgress).toHaveBeenCalledWith('Q1.Q12.Q121')
+  it('should get Q12', () => {
+    expect(GAME.getSpeech()).toMatchSnapshot()
   })
 
-  it('should call next from state', () => {
-    expect(GAME.state.next).not.toBeCalled()
-    GAME.getSpeech()
-    expect(GAME.state.next).toBeCalledWith('TAKE_DROITE')
+  it('should get isEnd attribute => false', () => {
+    expect(GAME.isEnd).toBeFalsy()
+  })
+
+  it('should get isEnd attribute => true', () => {
+    const h = HandlerInputFactory.create({}, {
+      progress: 'Q2'
+    })
+    const game = new Game(h)
+    expect(game.isEnd).toBeTruthy()
+    expect(game.getSpeech()).toMatchSnapshot()
   })
 
 })

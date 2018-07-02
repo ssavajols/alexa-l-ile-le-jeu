@@ -1,3 +1,4 @@
+import { BADNAME } from 'dns'
 import { AnwserEntity } from './AnswerEntity'
 import data from './data/state-fr-FR.spec.json'
 import { QuestionMissingIdError, QuestionNotFoundError } from './errors'
@@ -28,5 +29,12 @@ describe('QuestionEntity', () => {
     expect(() => Q = new QuestionEntity({}, '')).toThrowError(new QuestionMissingIdError().message)
     Q = new QuestionEntity(data, 'Q1')
     expect(() => Q.setById('')).toThrowError(new QuestionMissingIdError().message)
+  })
+
+  it('should get Answer index', () => {
+    const Q11 = new QuestionEntity(data, 'Q11')
+    const Q111 = new QuestionEntity(data, 'Q111')
+    expect(Q11.findAnswerIndexByValue('THROW_COUTEAU')).toBe(0)
+    expect(Q111.findAnswerIndexByValue('MOVE_DROIT')).toBe(1)
   })
 })

@@ -1,17 +1,10 @@
-import { Game } from '../game'
+import { HandlerFactory } from './handlerFactory'
 
-export const ExitHandler = {
-  canHandle (handlerInput) {
-    const request = handlerInput.requestEnvelope.request
-    return request.type === 'IntentRequest'
-      && (request.intent.name === 'AMAZON.CancelIntent'
-        || request.intent.name === 'AMAZON.StopIntent')
-  },
-  handle (handlerInput) {
-    const GAME = new Game(handlerInput)
+export const ExitHandler = HandlerFactory.create(['AMAZON.CancelIntent'], '', (error, handlerInput, GAME) => {
 
-    return handlerInput.responseBuilder
-      .speak(GAME.stop())
-      .getResponse()
-  }
-}
+  if (error) return false
+
+  return handlerInput.responseBuilder
+    .speak(GAME.stop())
+    .getResponse()
+})

@@ -56,6 +56,14 @@ describe('GAME', () => {
     expect(GAME.getSpeech()).toMatchSnapshot()
   })
 
+  it('should get first question (new session)', () => {
+    const h = HandlerInputFactory.create({}, {})
+    const game = new Game(h)
+    expect(game.isEnd).toBeFalsy()
+    expect(game.getSpeech()).toMatchSnapshot()
+    expect(h.attributesManager.getSessionAttributes().progress).toBe('Q1')
+  })
+
   it('should get isEnd attribute => false', () => {
     expect(GAME.isEnd).toBeFalsy()
   })

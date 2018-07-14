@@ -9,7 +9,7 @@ export class State {
 
   private _question?: QuestionEntity
 
-  constructor (data, progress) {
+  constructor (data, progress?) {
     this._data = data
     this.setProgress(progress)
   }

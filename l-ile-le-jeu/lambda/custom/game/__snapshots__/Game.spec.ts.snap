@@ -2,4 +2,6 @@
 
 exports[`GAME should get Q12 1`] = `"<p>tata ?</p><p>TAKE_CHAISE. MOVE_BAS</p>"`;
 
+exports[`GAME should get first question (new session) 1`] = `"<p>Welcome</p><p>toto ?</p><p>TAKE_MARTEAU. MOVE_HAUT</p>"`;
+
 exports[`GAME should get isEnd attribute => true 1`] = `"<p>No way out ?</p>"`;

@@ -1,20 +1,11 @@
-import * as Alexa from 'ask-sdk-core'
-import { Game } from '../game'
+import { HandlerFactory } from './handlerFactory'
 
-export const HelpHandler = {
-  canHandle (handlerInput: Alexa.HandlerInput) {
-    const request = handlerInput.requestEnvelope.request
-    return request.type === 'IntentRequest'
-      && request.intent.name === 'AMAZON.HelpIntent'
-  },
-  handle (handlerInput: Alexa.HandlerInput) {
+export const HelpHandler = HandlerFactory.create(['AMAZON.HelpIntent'], '', (error, handlerInput, GAME) => {
+  if (error) return false
 
-    const GAME = new Game(handlerInput)
-
-    return handlerInput.responseBuilder
+  return handlerInput.responseBuilder
       .speak(GAME.help())
       .reprompt(GAME.help())
       .withShouldEndSession(GAME.isEnd)
       .getResponse()
-  }
-}
+})

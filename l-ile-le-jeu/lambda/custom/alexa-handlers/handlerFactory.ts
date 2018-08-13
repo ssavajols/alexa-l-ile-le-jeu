@@ -1,13 +1,30 @@
 import * as Alexa from 'ask-sdk-core'
 import { IntentRequest, Response } from 'ask-sdk-model'
+import fs from 'fs'
+import path from 'path'
 import { Game } from '../game'
 
 export class HandlerFactory {
+  public static createFromJson () {
+    const handlersJSON = JSON.parse(
+      fs.readFileSync(path.join(__dirname, './handlers.json')).toString()
+    )
+
+    const handlers: any[] = []
+    handlersJSON.map((handler) => {
+      handlers.push(
+        HandlerFactory.create(handler.intentName, handler.actionType)
+      )
+    })
+
+    return handlers
+  }
+
   public static create (
     intentName: boolean | string[],
     actionType,
     onHandle?
-  ): any {
+  ): Alexa.RequestHandler {
     return {
       canHandle (handlerInput: Alexa.HandlerInput): Promise<boolean> | boolean {
         const request = handlerInput.requestEnvelope.request as IntentRequest
@@ -19,12 +36,9 @@ export class HandlerFactory {
           intentName.indexOf(request.intent.name) !== -1
         )
       },
-      handle (
-        handlerInput: Alexa.HandlerInput,
-        error
-      ): Promise<Response> | Response {
+      handle (handlerInput: Alexa.HandlerInput): Promise<Response> | Response {
         const GAME = new Game(handlerInput, actionType)
-        const response = onHandle(error, handlerInput, GAME)
+        const response = onHandle(null, handlerInput, GAME)
 
         return response
           ? response

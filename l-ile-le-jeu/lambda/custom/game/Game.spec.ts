@@ -1,22 +1,23 @@
 import { Game } from '.'
 import { HandlerInputFactory } from '../../../../__tests__/HandlerInputFactory'
 import { Controls } from './Controls'
-import * as data from './data/state-fr-FR.spec.json'
 import { Session } from './Session'
 import { State } from './State'
 
 describe('GAME', () => {
-
   let GAME
   let handlerInput
+  const data = require('./data/state-fr-FR.spec.json')
 
   beforeEach(() => {
-
-    handlerInput = HandlerInputFactory.create({
-      action: { value: 'Droite' }
-    }, {
-      progress: 'Q1.Q12'
-    })
+    handlerInput = HandlerInputFactory.create(
+      {
+        action: { value: 'Droite' }
+      },
+      {
+        progress: 'Q1.Q12'
+      }
+    )
     GAME = new Game(handlerInput, 'Take')
   })
 
@@ -69,12 +70,14 @@ describe('GAME', () => {
   })
 
   it('should get isEnd attribute => true', () => {
-    const h = HandlerInputFactory.create({}, {
-      progress: 'Q2'
-    })
+    const h = HandlerInputFactory.create(
+      {},
+      {
+        progress: 'Q2'
+      }
+    )
     const game = new Game(h)
     expect(game.isEnd).toBeTruthy()
     expect(game.getSpeech()).toMatchSnapshot()
   })
-
 })

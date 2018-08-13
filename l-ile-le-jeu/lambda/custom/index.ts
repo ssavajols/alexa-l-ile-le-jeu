@@ -1,7 +1,7 @@
 import * as Alexa from 'ask-sdk-core'
-import { TakeActionHandler, ThrowActionHandler } from './alexa-handlers/action'
 import { ErrorHandler } from './alexa-handlers/error'
 import { ExitHandler } from './alexa-handlers/exit'
+import { HandlerFactory } from './alexa-handlers/handlerFactory'
 import { HelpHandler } from './alexa-handlers/help'
 import { MoveHandler } from './alexa-handlers/move'
 import { RepeatHandler } from './alexa-handlers/repeat'
@@ -15,9 +15,8 @@ exports.handler = skillBuilder
   .addRequestHandlers(
     WelcomeHandler,
     RepeatHandler,
+    ...HandlerFactory.createFromJson(),
     HelpHandler,
-    ThrowActionHandler,
-    TakeActionHandler,
     MoveHandler,
     ExitHandler,
     SessionEndedRequestHandler,

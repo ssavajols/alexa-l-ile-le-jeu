@@ -1,25 +1,32 @@
 import * as Alexa from 'ask-sdk-core'
+import { Config } from './Config'
 import { Controls } from './Controls'
-import * as data from './data/state-fr-FR.spec.json'
 import { Session } from './Session'
 import { State } from './State'
 
 export class Game {
-
   public session: Session
   public controls: Controls
   public state: State
 
+  private _data: any
   private _speech: string = ''
 
-  constructor (handler: Alexa.HandlerInput, actionType?: string, language: string = 'fr-FR') {
+  constructor (
+    handler: Alexa.HandlerInput,
+    actionType?: string,
+    language: string = 'fr-FR'
+  ) {
+    this._data = Config.load(language)
     this.session = new Session(handler)
     this.controls = new Controls(handler, actionType)
-    this.state = new State(data, this.session.getAttribute('progress'))
+    this.state = new State(this._data, this.session.getAttribute('progress'))
   }
 
   public getSpeech (): string {
-    this._speech = this._speech ? this._speech : this.state.next(this.controls.getAction() || '')
+    this._speech = this._speech
+      ? this._speech
+      : this.state.next(this.controls.getAction() || '')
     this.session.setAttribute('progress', this.state.getProgress())
     return this._speech
   }
@@ -44,5 +51,4 @@ export class Game {
     const question = this.state.getQuestion()
     return question ? question.isEnd : false
   }
-
 }

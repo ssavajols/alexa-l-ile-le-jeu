@@ -1,11 +1,13 @@
 import { Config } from './Config'
-import data from './data/state-fr-FR.spec.json'
 import { DataNotLoadedError, NoLocaleError } from './errors'
 
 describe('config', () => {
+  const data = require('./data/state-fr-FR.spec.json')
 
   it('should throw exception if no locale', () => {
-    expect(() => Config.getConfig()).toThrowError(new DataNotLoadedError().message)
+    expect(() => Config.getConfig()).toThrowError(
+      new DataNotLoadedError().message
+    )
   })
 
   it('should return data', () => {

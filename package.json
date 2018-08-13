@@ -4,13 +4,13 @@
   "description": "Poum game for alexa",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build -- --watch",
-    "build": "tsc --project ./tsconfig.json ",
-    "lint": "tslint --project ./tsconfig.json",
+    "start": "NODE_ENV=prod npm run build -- --watch",
+    "build": "NODE_ENV=prod tsc --project ./tsconfig.json ",
+    "lint": "NODE_ENV=prod tslint --project ./tsconfig.json",
     "simulate": "cd l-ile-le-jeu && ask simulate",
     "deploy": "cd l-ile-le-jeu && ask deploy",
     "deploy-test": "npm run deploy &&  npm run simulate -- -t \"ouvre le jeu l'ile\" -l fr-FR",
-    "test": "jest --coverage"
+    "test": "NODE_ENV=test jest --coverage"
   },
   "repository": {
     "type": "git",

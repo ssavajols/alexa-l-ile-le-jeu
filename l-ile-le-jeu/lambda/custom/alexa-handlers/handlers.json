@@ -1,0 +1,10 @@
+[
+  {
+    "intentName": ["TakeAction"],
+    "actionType": "Take"
+  },
+  {
+    "intentName": ["ThroweAction"],
+    "actionType": "Throw"
+  }
+]
